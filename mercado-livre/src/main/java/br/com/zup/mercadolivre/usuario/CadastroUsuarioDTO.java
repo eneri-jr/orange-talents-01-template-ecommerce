@@ -4,10 +4,13 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import br.com.zup.mercadolivre.validacao.ValorUnico;
+
 public class CadastroUsuarioDTO {
 
 	@NotBlank
 	@Email
+	@ValorUnico(Classe = Usuario.class, campo = "login")
 	private String login;
 
 	@NotBlank

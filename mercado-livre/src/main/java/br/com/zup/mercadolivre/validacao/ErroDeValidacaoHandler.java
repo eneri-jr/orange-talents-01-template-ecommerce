@@ -40,7 +40,7 @@ public class ErroDeValidacaoHandler {
 	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(ConstraintViolationException.class)
 	public String handle(ConstraintViolationException exception) {
-		return "Os dados informados no campo único ja existem no banco de dados";
+		return "Erro na entrada de dados do Banco, por favor tente novamente.";
 	}
 
 }

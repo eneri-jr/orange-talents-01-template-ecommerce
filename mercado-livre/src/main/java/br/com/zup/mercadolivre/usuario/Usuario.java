@@ -2,6 +2,7 @@ package br.com.zup.mercadolivre.usuario;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,6 +20,7 @@ public class Usuario {
 
 	@NotBlank
 	@Email
+	@Column(unique = true)
 	private String login;
 
 	@NotBlank
