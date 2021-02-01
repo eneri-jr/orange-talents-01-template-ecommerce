@@ -35,6 +35,7 @@ public class ConfigSecurity extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()
 		.antMatchers("/categoria").permitAll()
 		.antMatchers("/autenticacao").permitAll()
+		.antMatchers("/produto").permitAll()
 		.anyRequest().authenticated()
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
