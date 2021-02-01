@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -41,6 +42,12 @@ public class ErroDeValidacaoHandler {
 	@ExceptionHandler(ConstraintViolationException.class)
 	public String handle(ConstraintViolationException exception) {
 		return "Erro na entrada de dados do Banco, por favor tente novamente.";
+	}
+	
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(AuthenticationException.class)
+	public String handle(AuthenticationException exception) {
+		return "Dados inválidos, tente novamente";
 	}
 
 }
