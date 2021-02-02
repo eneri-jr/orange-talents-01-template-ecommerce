@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.zup.mercadolivre.categoria.CategoriaRepository;
 import br.com.zup.mercadolivre.imagens.ImagensDTO;
+import br.com.zup.mercadolivre.opiniao.CadastroOPiniaoDTO;
 import br.com.zup.mercadolivre.upload.UploadFake;
 import br.com.zup.mercadolivre.usuario.Usuario;
 
@@ -40,7 +41,6 @@ public class ProdutoController {
 	@Transactional
 	public ResponseEntity<?> criar(@RequestBody @Valid CadastroProdutoDTO produtoDTO,
 			@AuthenticationPrincipal Usuario usuarioLogado) {
-		System.out.println("Autenticadoooooo" + usuarioLogado.getId());
 
 		Produto produto = produtoDTO.converter(categoriaRepository, usuarioLogado);
 		produtoRepository.save(produto);
@@ -61,11 +61,25 @@ public class ProdutoController {
 		} else {
 			if (produto.get().getUsuario().equals(usuarioLogado)) {
 				produto.get().associaImagens(imagens);
-				
+
 				return ResponseEntity.ok().build();
 			}
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}
 
+	}
+
+	@PostMapping("/{id}/opiniao")
+	@Transactional
+	public ResponseEntity<?> adicionaOpiniao(@PathVariable Long id, @RequestBody @Valid CadastroOPiniaoDTO opiniaoDTO,
+			@AuthenticationPrincipal Usuario usuarioLogado) {
+
+		Optional<Produto> produto = produtoRepository.findById(id);
+		if (!produto.isPresent()) {
+			return ResponseEntity.badRequest().build();
+		} else {
+			produto.get().associaOpiniao(opiniaoDTO, produto.get(), usuarioLogado);
+			return ResponseEntity.ok().build();
+		}
 	}
 }
