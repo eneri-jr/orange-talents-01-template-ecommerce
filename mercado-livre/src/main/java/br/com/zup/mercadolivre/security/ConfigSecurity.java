@@ -11,17 +11,25 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import br.com.zup.mercadolivre.autenticacao.AutenticacaoService;
+import br.com.zup.mercadolivre.autenticacao.AutenticacaoViaTokenFilter;
+import br.com.zup.mercadolivre.security.token.TokenService;
+import br.com.zup.mercadolivre.usuario.UsuarioRepository;
 
 @EnableWebSecurity
 @Configuration
 public class ConfigSecurity extends WebSecurityConfigurerAdapter{
 	
 	private final AutenticacaoService autenticacaoService;
+	private final TokenService tokenService;
+	private final UsuarioRepository usuarioRepository;
 	
-	public ConfigSecurity(AutenticacaoService autenticacaoService) {
+	public ConfigSecurity(AutenticacaoService autenticacaoService, TokenService tokenService, UsuarioRepository usuarioRepository) {
 		this.autenticacaoService = autenticacaoService;
+		this.tokenService = tokenService;
+		this.usuarioRepository = usuarioRepository;
 	}
 	
 	@Override
@@ -35,10 +43,10 @@ public class ConfigSecurity extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()
 		.antMatchers("/categoria").permitAll()
 		.antMatchers("/autenticacao").permitAll()
-		.antMatchers("/produto").permitAll()
 		.anyRequest().authenticated()
 		.and().csrf().disable()
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		.and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class);
 	}
 	
 	@Override

@@ -38,7 +38,7 @@ public class Usuario implements UserDetails {
 	private String senha;
 
 	private LocalDate dataCriacao;
-	
+
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Perfil> perfis = new ArrayList<>();
 
@@ -70,6 +70,10 @@ public class Usuario implements UserDetails {
 	@Override
 	public String getUsername() {
 		return this.login;
+	}
+
+	public List<Perfil> getPerfis() {
+		return perfis;
 	}
 
 	@Override
