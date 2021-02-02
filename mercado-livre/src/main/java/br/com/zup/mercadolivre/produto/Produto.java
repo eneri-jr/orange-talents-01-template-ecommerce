@@ -22,6 +22,8 @@ import javax.validation.constraints.Size;
 import br.com.zup.mercadolivre.caracteristicas.CadastroCaracDTO;
 import br.com.zup.mercadolivre.caracteristicas.Caracteristicas;
 import br.com.zup.mercadolivre.categoria.Categoria;
+import br.com.zup.mercadolivre.imagens.Imagens;
+import br.com.zup.mercadolivre.usuario.Usuario;
 
 @Entity
 public class Produto {
@@ -51,6 +53,13 @@ public class Produto {
 
 	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
 	private Set<Caracteristicas> caracteristicas = new HashSet<>();
+	
+	@NotNull
+	@ManyToOne
+	private Usuario usuario;
+	
+	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
+	private Set<Imagens> imagens = new HashSet<>();
 
 	private LocalDate dataCriacao;
 
@@ -61,7 +70,7 @@ public class Produto {
 
 	public Produto(@NotBlank String nome, @NotNull @Positive BigDecimal valor, @NotNull @Positive Integer quantidade,
 			@NotBlank @Size(max = 1000) String descricao, @NotNull Categoria categoria,
-			Collection<CadastroCaracDTO> caracteristicas) {
+			Collection<CadastroCaracDTO> caracteristicas, @NotNull Usuario usuario) {
 		this.nome = nome;
 		this.valor = valor;
 		this.quantidade = quantidade;
@@ -72,6 +81,16 @@ public class Produto {
 				.stream().map(caracteristica -> caracteristica.converter(this))
 				.collect(Collectors.toSet());
 		this.caracteristicas.addAll(novasCaracteristicas);
+		this.usuario = usuario;
+	}
+
+	public Usuario getUsuario() {
+		return this.usuario;
+	}
+	
+	public void associaImagens (Set<String> links) {
+		Set<Imagens> imagens = links.stream().map(link -> new Imagens(link, this)).collect(Collectors.toSet());
+		this.imagens.addAll(imagens);
 	}
 
 }

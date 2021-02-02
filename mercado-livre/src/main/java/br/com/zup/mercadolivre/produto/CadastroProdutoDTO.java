@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 import br.com.zup.mercadolivre.caracteristicas.CadastroCaracDTO;
 import br.com.zup.mercadolivre.categoria.Categoria;
 import br.com.zup.mercadolivre.categoria.CategoriaRepository;
+import br.com.zup.mercadolivre.usuario.Usuario;
 
 public class CadastroProdutoDTO {
 
@@ -56,9 +57,9 @@ public class CadastroProdutoDTO {
 		return caracteristicas;
 	}
 
-	public Produto converter(CategoriaRepository categoriaRepository) {
+	public Produto converter(CategoriaRepository categoriaRepository, Usuario usuario) {
 		Optional<Categoria> categoria = categoriaRepository.findById(idCategoria);
-		return new Produto(nome, valor, quantidade, descricao, categoria.get(), caracteristicas);
+		return new Produto(nome, valor, quantidade, descricao, categoria.get(), caracteristicas, usuario);
 	}
 
 }
