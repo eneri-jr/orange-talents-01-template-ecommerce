@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -23,6 +24,8 @@ import br.com.zup.mercadolivre.caracteristicas.CadastroCaracDTO;
 import br.com.zup.mercadolivre.caracteristicas.Caracteristicas;
 import br.com.zup.mercadolivre.categoria.Categoria;
 import br.com.zup.mercadolivre.imagens.Imagens;
+import br.com.zup.mercadolivre.opiniao.CadastroOPiniaoDTO;
+import br.com.zup.mercadolivre.opiniao.Opiniao;
 import br.com.zup.mercadolivre.usuario.Usuario;
 
 @Entity
@@ -60,6 +63,9 @@ public class Produto {
 	
 	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
 	private Set<Imagens> imagens = new HashSet<>();
+	
+	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
+	private Set<Opiniao> opinioes = new HashSet<>();
 
 	private LocalDate dataCriacao;
 
@@ -91,6 +97,12 @@ public class Produto {
 	public void associaImagens (Set<String> links) {
 		Set<Imagens> imagens = links.stream().map(link -> new Imagens(link, this)).collect(Collectors.toSet());
 		this.imagens.addAll(imagens);
+	}
+
+	public void associaOpiniao(@Valid CadastroOPiniaoDTO opiniaoDTO, Produto produto, Usuario usuario) {
+		Opiniao opiniao = new Opiniao(opiniaoDTO.getNota(), opiniaoDTO.getTitulo(), opiniaoDTO.getDescricao(), usuario, produto);
+		this.opinioes.add(opiniao);
+		
 	}
 
 }
