@@ -26,6 +26,8 @@ import br.com.zup.mercadolivre.categoria.Categoria;
 import br.com.zup.mercadolivre.imagens.Imagens;
 import br.com.zup.mercadolivre.opiniao.CadastroOPiniaoDTO;
 import br.com.zup.mercadolivre.opiniao.Opiniao;
+import br.com.zup.mercadolivre.pergunta.CadastroPerguntaDTO;
+import br.com.zup.mercadolivre.pergunta.Pergunta;
 import br.com.zup.mercadolivre.usuario.Usuario;
 
 @Entity
@@ -66,6 +68,9 @@ public class Produto {
 	
 	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
 	private Set<Opiniao> opinioes = new HashSet<>();
+	
+	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
+	private Set<Pergunta> perguntas = new HashSet<>();
 
 	private LocalDate dataCriacao;
 
@@ -102,6 +107,12 @@ public class Produto {
 	public void associaOpiniao(@Valid CadastroOPiniaoDTO opiniaoDTO, Produto produto, Usuario usuario) {
 		Opiniao opiniao = new Opiniao(opiniaoDTO.getNota(), opiniaoDTO.getTitulo(), opiniaoDTO.getDescricao(), usuario, produto);
 		this.opinioes.add(opiniao);
+		
+	}
+
+	public void associaPergunta(@Valid CadastroPerguntaDTO perguntaDTO, Produto produto, Usuario usu) {
+		Pergunta pergunta = new Pergunta(perguntaDTO.getTitulo(), perguntaDTO.getMensagem(), usuario, produto);
+		this.perguntas.add(pergunta);
 		
 	}
 
