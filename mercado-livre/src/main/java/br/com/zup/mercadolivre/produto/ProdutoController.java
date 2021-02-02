@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.zup.mercadolivre.categoria.CategoriaRepository;
 import br.com.zup.mercadolivre.imagens.ImagensDTO;
 import br.com.zup.mercadolivre.opiniao.CadastroOPiniaoDTO;
+import br.com.zup.mercadolivre.pergunta.CadastroPerguntaDTO;
 import br.com.zup.mercadolivre.upload.UploadFake;
 import br.com.zup.mercadolivre.usuario.Usuario;
 
@@ -80,6 +81,20 @@ public class ProdutoController {
 		} else {
 			produto.get().associaOpiniao(opiniaoDTO, produto.get(), usuarioLogado);
 			return ResponseEntity.ok().build();
+		}
+	}
+	
+	@PostMapping("/{id}/pergunta")
+	@Transactional
+	public ResponseEntity<CadastroPerguntaDTO> fazPergunta(@PathVariable Long id, @RequestBody @Valid CadastroPerguntaDTO perguntaDTO,
+			@AuthenticationPrincipal Usuario usuarioLogado) {
+
+		Optional<Produto> produto = produtoRepository.findById(id);
+		if (!produto.isPresent()) {
+			return ResponseEntity.badRequest().build();
+		} else {
+			produto.get().associaPergunta(perguntaDTO, produto.get(), usuarioLogado);
+			return ResponseEntity.ok(perguntaDTO);
 		}
 	}
 }
