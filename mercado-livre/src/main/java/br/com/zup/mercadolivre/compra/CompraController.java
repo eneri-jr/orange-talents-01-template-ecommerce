@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class CompraController {
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<?> comprar(@RequestBody CadastroCompraDTO compraDTO,
+	public ResponseEntity<?> comprar(@RequestBody @Valid CadastroCompraDTO compraDTO,
 			@AuthenticationPrincipal Usuario usuarioLogado, UriComponentsBuilder uriBuilder) {
 
 		Optional<Produto> produto = produtoRepository.findById(compraDTO.getIdProduto());
