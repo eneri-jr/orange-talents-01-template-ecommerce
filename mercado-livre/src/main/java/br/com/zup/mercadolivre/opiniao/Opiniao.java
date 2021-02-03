@@ -30,7 +30,7 @@ public class Opiniao {
 
 	@NotBlank
 	private String titulo;
-	
+
 	@NotBlank
 	@Size(max = 500)
 	private String descricao;
@@ -57,6 +57,28 @@ public class Opiniao {
 		this.produto = produto;
 	}
 
+	public Long getId() {
+		return id;
+	}
 
+	public int getNota() {
+		return nota;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public Produto getProduto() {
+		return produto;
+	}
 
 }
