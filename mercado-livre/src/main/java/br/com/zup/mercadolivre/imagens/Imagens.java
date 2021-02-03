@@ -27,7 +27,7 @@ public class Imagens {
 	@ManyToOne(cascade = CascadeType.REFRESH, targetEntity = Produto.class)
 	@JoinColumn(name = "produto_id")
 	private Produto produto;
-	
+
 	@Deprecated
 	public Imagens() {
 
@@ -36,6 +36,18 @@ public class Imagens {
 	public Imagens(@NotBlank @URL String imagem, Produto produto) {
 		this.imagem = imagem;
 		this.produto = produto;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public String getImagem() {
+		return imagem;
+	}
+
+	public Produto getProduto() {
+		return produto;
 	}
 
 }

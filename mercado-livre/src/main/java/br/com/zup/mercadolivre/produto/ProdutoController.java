@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -96,5 +97,23 @@ public class ProdutoController {
 			produto.get().associaPergunta(perguntaDTO, produto.get(), usuarioLogado);
 			return ResponseEntity.ok(perguntaDTO);
 		}
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<ProdutoDetalhadoDTO> detalharProduto(@PathVariable Long id) {
+		
+		Optional<Produto> produto = produtoRepository.findById(id);
+		if (!produto.isPresent()) {
+			return ResponseEntity.notFound().build();
+		} else {
+			return ResponseEntity.ok(new ProdutoDetalhadoDTO(produto.get()));
+		}
+//		System.out.println("Id procurado é = " + id);
+//		try {
+//			Produto possivelProduto = produtoRepository.getOne(id);
+//			return ResponseEntity.ok(new ProdutoDetalhadoDTO(possivelProduto));
+//		} catch (Exception e) {
+//			return ResponseEntity.notFound().build();
+//		}
 	}
 }

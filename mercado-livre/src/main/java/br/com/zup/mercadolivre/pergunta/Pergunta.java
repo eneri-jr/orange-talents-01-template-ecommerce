@@ -51,4 +51,28 @@ public class Pergunta {
 		this.criacao = LocalDate.now();
 	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public String getMensagem() {
+		return mensagem;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public Produto getProduto() {
+		return produto;
+	}
+
+	public LocalDate getCriacao() {
+		return criacao;
+	}
+
 }
