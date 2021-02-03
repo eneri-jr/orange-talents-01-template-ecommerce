@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -45,7 +46,7 @@ public class Produto {
 	private BigDecimal valor;
 
 	@NotNull
-	@Positive
+	@Min(0)
 	private Integer quantidade;
 
 	@NotBlank
@@ -142,6 +143,10 @@ public class Produto {
 		return dataCriacao;
 	}
 
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
+	}
+
 	public void associaImagens(Set<String> links) {
 		Set<Imagens> imagens = links.stream().map(link -> new Imagens(link, this)).collect(Collectors.toSet());
 		this.imagens.addAll(imagens);
@@ -158,6 +163,10 @@ public class Produto {
 		Pergunta pergunta = new Pergunta(perguntaDTO.getTitulo(), perguntaDTO.getMensagem(), usuario, produto);
 		this.perguntas.add(pergunta);
 
+	}
+
+	public void atualizaEstoque(int quantidade) {
+		this.setQuantidade(this.getQuantidade() - quantidade);
 	}
 
 }
