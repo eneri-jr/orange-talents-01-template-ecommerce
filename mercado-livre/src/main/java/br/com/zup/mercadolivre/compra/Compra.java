@@ -12,6 +12,8 @@ import javax.validation.constraints.NotNull;
 import br.com.zup.mercadolivre.produto.Produto;
 import br.com.zup.mercadolivre.usuario.Usuario;
 
+import java.util.Objects;
+
 @Entity
 public class Compra {
 
@@ -73,4 +75,7 @@ public class Compra {
 		return usuario;
 	}
 
+	public void setStatus(StatusCompra status) {
+		this.status = status;
+	}
 }
