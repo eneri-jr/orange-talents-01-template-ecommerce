@@ -24,4 +24,8 @@ public class LoginDTO {
 		return new UsernamePasswordAuthenticationToken(login, senha);
 	}
 
+	public LoginDTO(@NotBlank String login, @NotBlank String senha) {
+		this.login = login;
+		this.senha = senha;
+	}
 }
