@@ -34,4 +34,11 @@ public class CadastroUsuarioDTO {
 		return new Usuario(login, novaSenha);
 	}
 
+	@Override
+	public String toString() {
+		return "CadastroUsuarioDTO{" +
+				"login='" + login + '\'' +
+				", senha='" + senha + '\'' +
+				'}';
+	}
 }
